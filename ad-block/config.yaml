@@ -1,0 +1,98 @@
+# =========================
+# Blocky Main Configuration
+# =========================
+
+log:
+  level: info
+
+# -------------------------
+# DNS Server
+# -------------------------
+ports:
+  dns: 53
+  http: 4000
+
+# -------------------------
+# Upstream DNS
+# -------------------------
+upstream:
+  default:
+    # Cloudflare + Quad9 (fast + malware protection)
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.quad9.net/dns-query
+    - https://dns.google/dns-query
+
+# -------------------------
+# Blocking Lists
+# -------------------------
+blocking:
+  blackLists:
+    ads:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+      - https://adaway.org/hosts.txt
+      - https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt
+
+    trackers:
+      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt
+      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt
+      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/regex.list
+
+    malware:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/data/malware/hosts
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/data/phishing/hosts
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/data/fakenews/hosts
+      - https://raw.githubusercontent.com/mitchellkrogza/Badd-Boyz-Hosts/master/hosts
+
+  # -----------------------
+  # Whitelist (Overrides)
+  # -----------------------
+  whiteLists:
+    default:
+      - https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
+
+  # -----------------------
+  # Client Groups
+  # -----------------------
+  clientGroupsBlock:
+    default:
+      - ads
+      - trackers
+      - malware
+
+  # -----------------------
+  # Block Response
+  # -----------------------
+  blockType: zeroIp
+
+# -------------------------
+# Caching
+# -------------------------
+caching:
+  minTime: 5m
+  maxTime: 30m
+  prefetching: true
+
+# -------------------------
+# Prometheus Metrics
+# -------------------------
+prometheus:
+  enable: true
+  path: /metrics
+
+# -------------------------
+# Custom DNS Overrides
+# -------------------------
+customDNS:
+  mapping:
+    # Example internal services
+    homelab.local: 192.168.1.10
+    grafana.local: 192.168.1.20
+
+# -------------------------
+# Bootstrap DNS
+# -------------------------
+bootstrapDns:
+  upstream: https://1.1.1.1/dns-query
+  ips:
+    - 1.1.1.1
+    - 9.9.9.9
